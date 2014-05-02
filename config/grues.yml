@@ -1,0 +1,5 @@
+---
+drop_gem_on_player_entrance: true
+flee_distance: 1 # Number of rooms
+flee_on_player_entrance: true
+attack_on_entrance: true

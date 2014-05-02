@@ -1,0 +1,37 @@
+---
+-
+  id: 1
+  name: Vermillion
+  teleport: false
+-
+  id: 2
+  name: Ochre
+  teleport: false
+-
+  id: 3
+  name: Chartreuse
+  teleport: false
+-
+  id: 4
+  name: Cobalt
+  teleport: true
+-
+  id: 5
+  name: Aquamarine
+  teleport: false
+-
+  id: 6
+  name: Emerald
+  teleport: false
+-
+  id: 7
+  name: Lavendar
+  teleport: false
+-
+  id: 8
+  name: Violet
+  teleport: false
+-
+  id: 9
+  name: Burnt Sienna
+  teleport: false
