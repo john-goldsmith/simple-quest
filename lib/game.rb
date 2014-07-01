@@ -1,6 +1,5 @@
 module SimpleQuest
 
-  CORRIDOR_CONFIG = HashWithIndifferentAccess.new(YAML.load(File.read("./config/corridors.yml")))
   GEM_CONFIG = HashWithIndifferentAccess.new(YAML.load(File.read("./config/gems.yml")))
   GRUE_CONFIG = HashWithIndifferentAccess.new(YAML.load(File.read("./config/grues.yml")))
   PLAYER_CONFIG = HashWithIndifferentAccess.new(YAML.load(File.read("./config/players.yml")))
@@ -9,9 +8,15 @@ module SimpleQuest
   class Game
 
     def initialize
-      map = Map.new(ROOM_CONFIG, CORRIDOR_CONFIG)
-      player = Player.new
-      grue = Grue.new
+      display_intro
+      @map = Map.new(ROOM_CONFIG)
+      @player = Player.new
+      puts @player.name.inspect
+      @grue = Grue.new
+    end
+
+    def display_intro
+      puts "Welcome to Simple Quest!"
     end
 
   end

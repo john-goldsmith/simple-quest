@@ -3,35 +3,71 @@
   id: 1
   name: Vermillion
   teleport: false
+  north:
+  east: Ochre
+  south: Aquamarine
+  west:
 -
   id: 2
   name: Ochre
   teleport: false
+  north: Vermillion
+  east: Chartreuse
+  south: Ochre
+  west:
 -
   id: 3
   name: Chartreuse
   teleport: false
+  north: Ochre
+  east:
+  south: Emerald
+  west:
 -
   id: 4
   name: Cobalt
   teleport: true
+  north: Vermillion
+  east:
+  south: Burnt Sienna
+  west: Vermillion
 -
   id: 5
   name: Aquamarine
   teleport: false
+  north:
+  east:
+  south: Violet
+  west: Cobalt
 -
   id: 6
   name: Emerald
   teleport: false
+  north:
+  east: Lavendar
+  south: Burnt Sienna
+  west: Cobalt
 -
   id: 7
   name: Lavendar
   teleport: false
+  north:
+  east: Chartreuse
+  south:
+  west: Burnt Sienna
 -
   id: 8
   name: Violet
   teleport: false
+  north:
+  east: Burnt Sienna
+  south: Burnt Sienna
+  west: Chartreuse
 -
   id: 9
   name: Burnt Sienna
   teleport: false
+  north: Emerald
+  east: Lavendar
+  south:
+  west:

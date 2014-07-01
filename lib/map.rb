@@ -2,7 +2,8 @@ module SimpleQuest
 
   class Map
 
-    def initialize(rooms, corridors)
+    def initialize(rooms)
+      @rooms = rooms
     end
 
   end

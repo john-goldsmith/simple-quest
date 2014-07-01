@@ -1,10 +1,10 @@
 ---
 lives: 1
 consume_turn_on_fail: false
-rest_every_nth_turn: 4
+rest_every_n_turns: 4
 random_spawn_on_death:
   enabled: true
-  room_id: 1 # Only used if random_spawn_on_death[enabled] = false
+  room_id: 1 # Only used if random_spawn_on_death[:enabled] = false
 lose_gems_on_death:
   enabled: true
-  number: 1 # Only used if lose_gems_on_death[enabled] = false
+  number: 1 # Only used if lose_gems_on_death[:enabled] = false
