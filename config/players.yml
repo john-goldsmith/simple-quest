@@ -1,5 +1,6 @@
 ---
-lives: 1
+lives: 3
+starting_gems: 0
 consume_turn_on_fail: false
 rest_every_n_turns: 4
 random_spawn_on_death:

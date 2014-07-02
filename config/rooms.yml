@@ -1,73 +1,82 @@
 ---
 -
   id: 1
-  name: Vermillion
+  name: vermillion
+  abbr: ve
   teleport: false
   north:
-  east: Ochre
-  south: Aquamarine
+  east: ochre
+  south: aquamarine
   west:
 -
   id: 2
-  name: Ochre
+  name: ochre
+  abbr: o
   teleport: false
-  north: Vermillion
-  east: Chartreuse
-  south: Ochre
+  north: vermillion
+  east: chartreuse
+  south: ochre
   west:
 -
   id: 3
-  name: Chartreuse
+  name: chartreuse
+  abbr: ch
   teleport: false
-  north: Ochre
+  north: ochre
   east:
-  south: Emerald
+  south: emerald
   west:
 -
   id: 4
-  name: Cobalt
+  name: cobalt
+  abbr: co
   teleport: true
-  north: Vermillion
+  north: vermillion
   east:
-  south: Burnt Sienna
-  west: Vermillion
+  south: burnt sienna
+  west: vermillion
 -
   id: 5
-  name: Aquamarine
+  name: aquamarine
+  abbr: a
   teleport: false
   north:
   east:
-  south: Violet
-  west: Cobalt
+  south: violet
+  west: cobalt
 -
   id: 6
-  name: Emerald
+  name: emerald
+  abbr: e
   teleport: false
   north:
-  east: Lavendar
-  south: Burnt Sienna
-  west: Cobalt
+  east: lavendar
+  south: burnt sienna
+  west: cobalt
 -
   id: 7
-  name: Lavendar
+  name: lavendar
+  abbr: l
   teleport: false
   north:
-  east: Chartreuse
+  east: chartreuse
   south:
-  west: Burnt Sienna
+  west: burnt sienna
 -
   id: 8
-  name: Violet
+  name: violet
+  abbr: vi
   teleport: false
   north:
-  east: Burnt Sienna
-  south: Burnt Sienna
-  west: Chartreuse
+  east: burnt sienna
+  south: burnt sienna
+  west: chartreuse
 -
   id: 9
-  name: Burnt Sienna
+  name: burnt sienna
+  abbr: bs
   teleport: false
-  north: Emerald
-  east: Lavendar
+  north: emerald
+  east: lavendar
   south:
   west:
