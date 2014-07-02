@@ -2,15 +2,20 @@ module SimpleQuest
 
   class Room
 
-    attr_reader :name,
-                :teleport
-                :abbr
+    attr_accessor :name,
+                  :teleport,
+                  :north,
+                  :east,
+                  :south,
+                  :west
 
-    def initialize
-    end
-
-    def self.teleport?(room_name)
-      ROOM_CONFIG.select { |room| room[:name] == room_name.downcase.to_sym }.first[:teleport]
+    def initialize(name, teleport, north=nil, east=nil, south=nil, west=nil)
+      self.name = name
+      self.teleport = teleport
+      self.north = north
+      self.east = east
+      self.south = south
+      self.west = west
     end
 
   end

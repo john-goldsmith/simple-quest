@@ -10,37 +10,80 @@ module SimpleQuest
     attr_accessor :player,
                   :grue,
                   :map,
-                  :turns
+                  :turn
 
     def initialize
-      display_intro
-      ensure_one_teleport_room
       self.map = Map.new
+      map.ensure_one_teleport_room
+      display_intro
+      display_instructions
       self.player = Player.new
       self.grue = Grue.new
+      self.turn = 0
       start_game
     end
 
     def start_game
-      player.display_current_room
-      until won? && player.alive? do
-        puts player.lives.inspect
-        player.lives -= 1
-        puts "Enter:"
-        action = gets.chomp
+      display_location_info
+      until won? || player.dead? do
+        prompt_for_action
       end
+    end
+
+    def prompt_for_action
+      Game.display_divider "Turn #{self.turn} (Lives: #{player.lives})"
+      print "Action: "
+      parse_action gets.chomp
+    end
+
+    def parse_action(action)
+      case action.downcase
+      when "north", "east", "south", "west"
+        player.move action
+        increment_turn
+      when "map"
+        Map.display
+      when "room"
+        display_location_info
+      when "help"
+        display_instructions
+      when "quit", "exit"
+        exit
+      else
+        puts "Invalid action. Type 'help' for available actions."
+      end
+    end
+
+    def display_location_info
+      Game.display_divider "Location"
+      puts "You are currently in the #{player.room[:name].titleize} room."
+      puts "Teleports are located in the #{map.teleports.map(&:name).join(', ').titleize} room(s)."
+    end
+
+    def increment_turn
+      self.turn += 1
     end
 
     def display_intro
       Game.clear_screen
-      puts "\nWelcome to...\n"
+      puts "\n"
+      puts "Welcome to..."
+      puts "\n"
       puts '   _____ _                 __        ____                  __'
       puts '  / ___/(_)___ ___  ____  / /__     / __ \__  _____  _____/ /_'
       puts '  \__ \/ / __ `__ \/ __ \/ / _ \   / / / / / / / _ \/ ___/ __/'
       puts ' ___/ / / / / / / / /_/ / /  __/  / /_/ / /_/ /  __(__  ) /_'
       puts '/____/_/_/ /_/ /_/ .___/_/\___/   \___\_\__,_/\___/____/\__/'
       puts '                /_/'
-      puts "\n"
+    end
+
+    def display_instructions
+      Game.display_divider "Instructions"
+      puts "north, east, south, west - Move in a direction."
+      puts "map                      - Display the map."
+      puts "room                     - Display the current room."
+      puts "room                     - Display the current room."
+      puts "exit, quit               - Exit the game."
     end
 
     def display_outro
@@ -51,12 +94,18 @@ module SimpleQuest
       player.gems >= 5 && @player.current_room.teleport?
     end
 
-    def ensure_one_teleport_room
-      raise "At least one room needs to be configured as a teleport room (see config/rooms.yml)" if ROOM_CONFIG.all? { |room| room[:teleport] == false }
-    end
-
     def self.clear_screen
       puts `clear` # TODO: This won't work on Windows
+    end
+
+    def self.display_divider(label=nil)
+      puts "\n"
+      if label
+        puts "#{'-'*20} #{label} #{'-'*20}"
+      else
+        puts "-"*62
+      end
+      puts "\n"
     end
 
   end

@@ -15,22 +15,28 @@ module SimpleQuest
     end
 
     def prompt_for_name
-      puts "To begin, please enter your name:\n\n"
+      Game.display_divider "Your Name"
+      print "To begin, please enter your name: "
       self.name = gets.chomp
     end
 
     def move(cardinal_direction)
+
     end
 
     def alive?
       lives > 0
     end
 
-    def display_current_room
-      puts "You are currently in the #{self.room[:name].titleize} room."
+    def dead?
+      lives <= 0
     end
 
     def rest
+    end
+
+    def decrement_life
+      self.lives -= 1
     end
 
   end

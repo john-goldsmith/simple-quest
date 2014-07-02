@@ -1,4 +1,5 @@
 ---
+starting_gems: -1 # Unlimited
 drop_gem_on_player_entrance: true
 flee_distance: 1 # Number of rooms
 flee_on_player_entrance: true

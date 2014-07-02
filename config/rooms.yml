@@ -1,80 +1,62 @@
 ---
 -
-  id: 1
   name: vermillion
-  abbr: ve
   teleport: false
   north:
   east: ochre
   south: aquamarine
   west:
 -
-  id: 2
   name: ochre
-  abbr: o
   teleport: false
   north: vermillion
   east: chartreuse
   south: ochre
   west:
 -
-  id: 3
   name: chartreuse
-  abbr: ch
   teleport: false
   north: ochre
   east:
   south: emerald
   west:
 -
-  id: 4
   name: cobalt
-  abbr: co
-  teleport: true
+  teleport: false
   north: vermillion
   east:
   south: burnt sienna
   west: vermillion
 -
-  id: 5
   name: aquamarine
-  abbr: a
   teleport: false
   north:
   east:
   south: violet
   west: cobalt
 -
-  id: 6
   name: emerald
-  abbr: e
   teleport: false
   north:
   east: lavendar
   south: burnt sienna
   west: cobalt
 -
-  id: 7
   name: lavendar
-  abbr: l
   teleport: false
   north:
   east: chartreuse
   south:
   west: burnt sienna
 -
-  id: 8
   name: violet
-  abbr: vi
   teleport: false
   north:
   east: burnt sienna
   south: burnt sienna
   west: chartreuse
 -
-  id: 9
   name: burnt sienna
-  abbr: bs
   teleport: false
   north: emerald
   east: lavendar
