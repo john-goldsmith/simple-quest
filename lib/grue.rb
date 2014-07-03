@@ -31,8 +31,8 @@ module SimpleQuest
       end
     end
 
-    def attack
-    end
+    # def attack
+    # end
 
   end
 

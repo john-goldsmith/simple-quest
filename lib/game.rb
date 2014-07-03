@@ -57,6 +57,14 @@ module SimpleQuest
           puts "The grue is on the move..."
           player.increment_turn
           grue.move(map)
+          puts "The grue is now in the #{grue.room.name.titleize} room."
+          if grue.room == player.room
+            # grue.attack
+            puts "The grue found you and attacked!"
+            puts "You lost all of your gems and respawned randomly."
+            player.gems = 0
+            player.room = (map.rooms - [player.room]).sample
+          end
         end
       when "map"
         Map.display
@@ -74,7 +82,7 @@ module SimpleQuest
       puts "You are currently located in the #{player.room.name.titleize} room."
       puts "#{map.teleport_rooms.size == 1 ? 'Teleport is' : 'Teleports are'} located in the #{map.teleport_rooms.map(&:name).join(', ').titleize} #{map.teleport_rooms.size == 1 ? 'room' : 'rooms'}."
       # puts "Gems are located in #{map.gem_rooms.map(&:name).join(', ').titleize}."
-      # puts "The Grue is currently located in the #{grue.room.name.titleize} room."
+      puts "The Grue is currently located in the #{grue.room.name.titleize} room."
     end
 
     def display_intro
@@ -92,6 +100,10 @@ module SimpleQuest
 
     def display_instructions
       Game.display_divider "Instructions"
+      puts "The goal of the Simple Quest is to collect #{GEM_CONFIG[:goal]} gems."
+      puts "\n"
+      puts "Available actions:"
+      puts "\n"
       puts "north, east, south, west - Move in a direction."
       puts "map                      - Display the map."
       puts "room                     - Display your current location and location of any telelports."
