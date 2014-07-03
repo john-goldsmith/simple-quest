@@ -106,7 +106,7 @@ module SimpleQuest
       puts "\n"
       puts "north, east, south, west - Move in a direction."
       puts "map                      - Display the map."
-      puts "room                     - Display your current location and location of any telelports."
+      puts "room, location           - Display your current location and location of any telelports."
       puts "help                     - Display this dialog."
       puts "exit, quit               - Exit the game."
     end
