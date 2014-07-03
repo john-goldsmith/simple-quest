@@ -32,11 +32,6 @@ module SimpleQuest
         puts "You are now in the #{self.room.name.titleize} room."
         increment_turn
       end
-      # puts "Resting..." if resting?
-    end
-
-    def alive?
-      self.lives > 0
     end
 
     def dead?
@@ -44,7 +39,7 @@ module SimpleQuest
     end
 
     def resting?
-      self.turn % PLAYER_CONFIG[:rest_every_n_turns] == 0
+      self.turn.modulo(PLAYER_CONFIG[:rest_every_n_turns]).zero?
     end
 
     def decrement_life

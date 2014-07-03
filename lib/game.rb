@@ -43,7 +43,6 @@ module SimpleQuest
         puts "Invalid action. Type 'help' for available actions."
         return
       end
-
       case action.downcase
       when "north", "east", "south", "west"
         player.move(map, action)
@@ -51,6 +50,13 @@ module SimpleQuest
           puts "The grue was just here! It dropped a gem and fled..."
           grue.flee(map)
           player.collect_gem
+        end
+        if player.resting?
+          Game.display_divider "Resting (+1 turn)"
+          puts "Zzzzz..."
+          puts "The grue is on the move..."
+          player.increment_turn
+          grue.move(map)
         end
       when "map"
         Map.display
@@ -68,7 +74,7 @@ module SimpleQuest
       puts "You are currently located in the #{player.room.name.titleize} room."
       puts "#{map.teleport_rooms.size == 1 ? 'Teleport is' : 'Teleports are'} located in the #{map.teleport_rooms.map(&:name).join(', ').titleize} #{map.teleport_rooms.size == 1 ? 'room' : 'rooms'}."
       # puts "Gems are located in #{map.gem_rooms.map(&:name).join(', ').titleize}."
-      puts "The Grue is currently located in the #{grue.room.name.titleize} room."
+      # puts "The Grue is currently located in the #{grue.room.name.titleize} room."
     end
 
     def display_intro
