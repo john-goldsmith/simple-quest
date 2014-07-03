@@ -2,14 +2,27 @@ module SimpleQuest
 
   class Grue
 
+    DIRECTIONS = ["north", "east", "south", "west"]
+
     attr_accessor :room,
                   :gems
 
-    def initialize
-      self.room = ROOM_CONFIG.sample[:name] # TODO: Don't spawn in the same room as the player
+    def initialize(rooms)
+      self.room = rooms.sample
     end
 
-    def flee
+    def flee(map)
+      drop_gem
+      move(map)
+    end
+
+    def move(map)
+      outbound_room = room.send(DIRECTIONS.sample)
+      if outbound_room.nil?
+        move(map)
+      else
+        self.room = map.find_room_by_name(outbound_room)
+      end
     end
 
     def drop_gem

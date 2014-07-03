@@ -14,3 +14,8 @@ Tested against Ruby 1.9.3+
 Simply run `ruby simple_quest.rb` in the root directory.
 
 ## Todo
+* Rest every Nth turn
+* Move grue when resting
+* Grue shortest path
+* Grue attack, lose gems, and respawn
+* Tests

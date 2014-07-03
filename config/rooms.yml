@@ -22,7 +22,7 @@
   west:
 -
   name: cobalt
-  teleport: false
+  teleport: true
   north: vermillion
   east:
   south: burnt sienna

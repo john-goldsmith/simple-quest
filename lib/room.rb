@@ -4,6 +4,7 @@ module SimpleQuest
 
     attr_accessor :name,
                   :teleport,
+                  :gem,
                   :north,
                   :east,
                   :south,

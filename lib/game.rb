@@ -4,22 +4,22 @@ module SimpleQuest
   GRUE_CONFIG = HashWithIndifferentAccess.new(YAML.load(File.read("./config/grues.yml")))
   PLAYER_CONFIG = HashWithIndifferentAccess.new(YAML.load(File.read("./config/players.yml")))
   ROOM_CONFIG = YAML.load(File.read("./config/rooms.yml")).map(&:with_indifferent_access)
+  VALID_ACTIONS = ["north", "east", "south", "west", "map", "help", "quit", "exit", "room", "location"]
 
   class Game
 
     attr_accessor :player,
                   :grue,
-                  :map,
-                  :turn
+                  :map
 
     def initialize
       self.map = Map.new
       map.ensure_one_teleport_room
+      map.scatter_gems if GEM_CONFIG[:scatter_on_new_game]
       display_intro
       display_instructions
-      self.player = Player.new
-      self.grue = Grue.new
-      self.turn = 0
+      self.player = Player.new(map.rooms)
+      self.grue = Grue.new(map.rooms - [player.room]) # Ensure that the grue doesn't spawn in the same room as the player
       start_game
     end
 
@@ -28,40 +28,47 @@ module SimpleQuest
       until won? || player.dead? do
         prompt_for_action
       end
+      display_outro
+      exit
     end
 
     def prompt_for_action
-      Game.display_divider "Turn #{self.turn} (Lives: #{player.lives})"
+      Game.display_divider "Turn: #{player.turn} | Gems: #{player.gems} / #{GEM_CONFIG[:goal]} | Lives: #{player.lives}"
       print "Action: "
       parse_action gets.chomp
     end
 
     def parse_action(action)
+      unless VALID_ACTIONS.include?(action.downcase)
+        puts "Invalid action. Type 'help' for available actions."
+        return
+      end
+
       case action.downcase
       when "north", "east", "south", "west"
-        player.move action
-        increment_turn
+        player.move(map, action)
+        if grue.room == player.room
+          puts "The grue was just here! It dropped a gem and fled..."
+          grue.flee(map)
+          player.collect_gem
+        end
       when "map"
         Map.display
-      when "room"
+      when "room", "location"
         display_location_info
       when "help"
         display_instructions
       when "quit", "exit"
         exit
-      else
-        puts "Invalid action. Type 'help' for available actions."
       end
     end
 
     def display_location_info
       Game.display_divider "Location"
-      puts "You are currently in the #{player.room[:name].titleize} room."
-      puts "Teleports are located in the #{map.teleports.map(&:name).join(', ').titleize} room(s)."
-    end
-
-    def increment_turn
-      self.turn += 1
+      puts "You are currently located in the #{player.room.name.titleize} room."
+      puts "#{map.teleport_rooms.size == 1 ? 'Teleport is' : 'Teleports are'} located in the #{map.teleport_rooms.map(&:name).join(', ').titleize} #{map.teleport_rooms.size == 1 ? 'room' : 'rooms'}."
+      # puts "Gems are located in #{map.gem_rooms.map(&:name).join(', ').titleize}."
+      puts "The Grue is currently located in the #{grue.room.name.titleize} room."
     end
 
     def display_intro
@@ -81,17 +88,17 @@ module SimpleQuest
       Game.display_divider "Instructions"
       puts "north, east, south, west - Move in a direction."
       puts "map                      - Display the map."
-      puts "room                     - Display the current room."
-      puts "room                     - Display the current room."
+      puts "room                     - Display your current location and location of any telelports."
+      puts "help                     - Display this dialog."
       puts "exit, quit               - Exit the game."
     end
 
     def display_outro
-      puts self.won? ? "You won!" : "You lost!"
+      puts self.won? ? "You won in #{player.turn} turns!" : "You lost!"
     end
 
     def won?
-      player.gems >= 5 && @player.current_room.teleport?
+      player.gems >= 5 && player.room.teleport
     end
 
     def self.clear_screen
