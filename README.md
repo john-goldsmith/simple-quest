@@ -15,5 +15,4 @@ Simply run `ruby simple_quest.rb` in the root directory.
 
 ## Todo
 * Grue shortest path
-* Grue attack, lose gems, and respawn
 * Tests
