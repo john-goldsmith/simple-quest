@@ -4,11 +4,14 @@ module SimpleQuest
 
     DIRECTIONS = ["north", "east", "south", "west"]
 
-    attr_accessor :room,
-                  :gems
+    attr_reader :room
 
     def initialize(rooms)
-      self.room = rooms.sample
+      @room = rooms.sample
+      @gems = GRUE_CONFIG[:starting_gems]
+    end
+
+    def ensure_has_enough_gems
     end
 
     def flee(map)
@@ -17,22 +20,21 @@ module SimpleQuest
     end
 
     def move(map)
-      outbound_room = room.send(DIRECTIONS.sample)
+      outbound_room = @room.send(DIRECTIONS.sample)
       if outbound_room.nil?
         move(map)
       else
-        self.room = map.find_room_by_name(outbound_room)
+        @room = map.find_room_by_name(outbound_room)
       end
     end
 
     def drop_gem
-      if GRUE_CONFIG[:starting_gems] >= 0 # Not unlimited
-        self.gems -= 1 if self.gems > 0
-      end
+      @gems -= 1 if has_gems?
     end
 
-    # def attack
-    # end
+    def has_gems?
+      @gems != 0
+    end
 
   end
 

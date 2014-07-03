@@ -2,21 +2,21 @@ module SimpleQuest
 
   class Room
 
-    attr_accessor :name,
-                  :teleport,
-                  :gem,
-                  :north,
-                  :east,
-                  :south,
-                  :west
+    attr_reader :name,
+                :teleport,
+                :gem,
+                :north,
+                :east,
+                :south,
+                :west
 
     def initialize(name, teleport, north=nil, east=nil, south=nil, west=nil)
-      self.name = name
-      self.teleport = teleport
-      self.north = north
-      self.east = east
-      self.south = south
-      self.west = west
+      @name = name
+      @teleport = teleport
+      @north = north
+      @east = east
+      @south = south
+      @west = west
     end
 
   end

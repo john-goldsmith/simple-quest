@@ -8,24 +8,20 @@ module SimpleQuest
 
   class Game
 
-    attr_accessor :player,
-                  :grue,
-                  :map
-
     def initialize
-      self.map = Map.new
-      map.ensure_one_teleport_room
-      map.scatter_gems if GEM_CONFIG[:scatter_on_new_game]
+      @map = Map.new
+      @map.ensure_one_teleport_room
+      @map.scatter_gems if GEM_CONFIG[:scatter_on_new_game]
       display_intro
       display_instructions
-      self.player = Player.new(map.rooms)
-      self.grue = Grue.new(map.rooms - [player.room]) # Ensure that the grue doesn't spawn in the same room as the player
+      @player = Player.new(@map.rooms)
+      @grue = Grue.new(@map.rooms - [@player.room]) # Ensure that the grue doesn't spawn in the same room as the player
       start_game
     end
 
     def start_game
       display_location_info
-      until won? || player.dead? do
+      until won? || @player.dead? do
         prompt_for_action
       end
       display_outro
@@ -33,7 +29,7 @@ module SimpleQuest
     end
 
     def prompt_for_action
-      Game.display_divider "Turn: #{player.turn} | Gems: #{player.gems} / #{GEM_CONFIG[:goal]} | Lives: #{player.lives}"
+      Game.display_divider "Turn: #{@player.turn} | Gems: #{@player.gems} / #{GEM_CONFIG[:goal]} | Lives: #{@player.lives}"
       print "Action: "
       parse_action gets.chomp
     end
@@ -45,25 +41,30 @@ module SimpleQuest
       end
       case action.downcase
       when "north", "east", "south", "west"
-        player.move(map, action)
-        if grue.room == player.room
-          puts "The grue was just here! It dropped a gem and fled..."
-          grue.flee(map)
-          player.collect_gem
+        @player.move(@map, action)
+        if @grue.room == @player.room
+          if @grue.has_gems?
+            puts "The grue was just here! It dropped a gem and fled..."
+            @player.collect_gem
+            puts "You collected all the gems -- make your way to a teleport room!" if @player.gems == GEM_CONFIG[:goal]
+          else
+            puts "The grue was just here but fled!"
+          end
+          @grue.flee(@map)
         end
-        if player.resting?
+        if @player.resting?
           Game.display_divider "Resting (+1 turn)"
           puts "Zzzzz..."
           puts "The grue is on the move..."
-          player.increment_turn
-          grue.move(map)
-          puts "The grue is now in the #{grue.room.name.titleize} room."
-          if grue.room == player.room
+          @player.increment_turn
+          @grue.move(@map)
+          # puts "The grue is now in the #{@grue.room.name.titleize} room."
+          if @grue.room == @player.room
             # grue.attack
             puts "The grue found you and attacked!"
             puts "You lost all of your gems and respawned randomly."
-            player.gems = 0
-            player.room = (map.rooms - [player.room]).sample
+            @player.gems = 0
+            @player.room = (@map.rooms - [@player.room]).sample
           end
         end
       when "map"
@@ -79,10 +80,10 @@ module SimpleQuest
 
     def display_location_info
       Game.display_divider "Location"
-      puts "You are currently located in the #{player.room.name.titleize} room."
-      puts "#{map.teleport_rooms.size == 1 ? 'Teleport is' : 'Teleports are'} located in the #{map.teleport_rooms.map(&:name).join(', ').titleize} #{map.teleport_rooms.size == 1 ? 'room' : 'rooms'}."
-      # puts "Gems are located in #{map.gem_rooms.map(&:name).join(', ').titleize}."
-      puts "The Grue is currently located in the #{grue.room.name.titleize} room."
+      puts "You are currently located in the #{@player.room.name.titleize} room."
+      puts "The #{@map.teleport_rooms.size == 1 ? 'teleport is' : 'teleports are'} located in the #{@map.teleport_rooms.map(&:name).join(', ').titleize} #{@map.teleport_rooms.size == 1 ? 'room' : 'rooms'}."
+      # puts "Gems are located in #{@map.gem_rooms.map(&:name).join(', ').titleize}."
+      # puts "The Grue is currently located in the #{@grue.room.name.titleize} room."
     end
 
     def display_intro
@@ -100,7 +101,12 @@ module SimpleQuest
 
     def display_instructions
       Game.display_divider "Instructions"
-      puts "The goal of the Simple Quest is to collect #{GEM_CONFIG[:goal]} gems."
+      puts "The goal of Simple Quest is to collect #{GEM_CONFIG[:goal]} #{GEM_CONFIG[:goal] == 1 ? 'gem' : 'gems'} and make your way to a teleport room."
+      puts "After every #{PLAYER_CONFIG[:rest_every_n_turns]} turns you must rest, consuming one turn."
+      puts "While you are resting, the grue is free to move and will make it's way in your direction."
+      puts "If you enter the room with the grue, it will drop and gem and flee."
+      puts "However, if while resting, the grue enters the room you are in, you will lose all of your gems and respawn randomly."
+      puts "Good luck!"
       puts "\n"
       puts "Available actions:"
       puts "\n"
@@ -112,11 +118,11 @@ module SimpleQuest
     end
 
     def display_outro
-      puts self.won? ? "You won in #{player.turn} turns!" : "You lost!"
+      puts won? ? "You won in #{@player.turn} turns!" : "The grue attacked you -- you lose!"
     end
 
     def won?
-      player.gems >= 5 && player.room.teleport
+      @player.gems >= 5 && @player.room.teleport
     end
 
     def self.clear_screen
