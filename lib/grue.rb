@@ -33,7 +33,7 @@ module SimpleQuest
     end
 
     def has_gems?
-      @gems != 0
+      !@gems.zero?
     end
 
   end
